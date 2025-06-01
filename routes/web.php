@@ -18,6 +18,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
+// посредник после авторизации запускает verified 
+// для проверки веррификации email
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');

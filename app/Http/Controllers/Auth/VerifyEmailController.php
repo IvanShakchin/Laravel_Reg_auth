@@ -15,10 +15,12 @@ class VerifyEmailController extends Controller
      */
     public function __invoke(EmailVerificationRequest $request): RedirectResponse
     {
+        // если не верифицирован то редирект
         if ($request->user()->hasVerifiedEmail()) {
             return redirect()->intended(RouteServiceProvider::HOME.'?verified=1');
         }
-
+        
+        // если пройдена верификация
         if ($request->user()->markEmailAsVerified()) {
             event(new Verified($request->user()));
         }
