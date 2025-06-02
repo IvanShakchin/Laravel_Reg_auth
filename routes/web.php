@@ -31,4 +31,12 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+// создаем страницу для авторизованного пользователя с повтроным вводом пароля
+Route::get('/sendpayment', function () {
+    return 'send payment';
+
+// })->middleware(['auth', 'verified']); // просто авторизован
+
+})->middleware(['password.confirm', 'verified']); // доп ввод пароля
+
 require __DIR__.'/auth.php';
