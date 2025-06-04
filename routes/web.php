@@ -2,7 +2,8 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-
+use App\Models\Address; 
+use App\Http\Controllers\AddressController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -38,5 +39,29 @@ Route::get('/sendpayment', function () {
 // })->middleware(['auth', 'verified']); // просто авторизован
 
 })->middleware(['password.confirm', 'verified']); // доп ввод пароля
+
+
+Route::get('/profile', function () {
+    return 'profile';
+    // необходимо базовая авторизация
+})->middleware('auth.basic'); 
+
+
+Route::get('/createaddress', function () {
+    return 'Можно созать новый адрес';
+    // use App\Models\Address; 
+    // проверка пользователя на доступ к модели
+})->middleware('can:create,App\Models\Address'); 
+
+
+Route::get('/viewaddress/{address}', function (Address $address) {
+    return 'Можно посмотреть этот адресс: '.$address->id;
+    // проверка пользователя на доступ к модели
+})->middleware('can:view,address'); 
+
+
+Route::resource('addresses', AddressController::class);
+
+
 
 require __DIR__.'/auth.php';
